@@ -140,6 +140,7 @@ static NSString *Methods[] = {
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	responseCode_ = [(NSHTTPURLResponse *)response statusCode];
+	[responseBody_ release];
 	responseBody_ = [NSMutableData new];
 }
 
