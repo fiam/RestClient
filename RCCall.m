@@ -11,6 +11,13 @@
 
 #import "RCCall.h"
 
+@interface NSObject (RCCall)
+
+- (NSURLRequest *)call:(RCCall *)call willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response;
+
+@end
+
+
 static NSString *Methods[] = {
 	@"HEAD",
 	@"GET",
@@ -137,6 +144,16 @@ static NSString *Methods[] = {
 
 #pragma mark -
 #pragma mark NSURLConnectionDelegate
+
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request
+			redirectResponse:(NSURLResponse *)redirectResponse {
+
+	if ([self.delegate respondsToSelector:@selector(call:willSendRequest:redirectResponse:)]) {
+		return [(id)self.delegate call:self willSendRequest:request redirectResponse:redirectResponse];
+	}
+
+	return request;
+}
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	responseCode_ = [(NSHTTPURLResponse *)response statusCode];
