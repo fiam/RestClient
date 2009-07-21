@@ -179,6 +179,9 @@ static NSString *Methods[] = {
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+#ifdef RESTCLIENT_DEBUG
+	NSLog(@"Call to %@ failed with error '%@'", self.callURL, [error localizedDescription]);
+#endif
 	responseError_ = [error retain];
 	[self.delegate performSelector:self.didFailSelector withObject:self];
 	[self.manager callDidComplete:self];
