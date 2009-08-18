@@ -148,11 +148,19 @@ static NSString *Methods[] = {
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request
 			redirectResponse:(NSURLResponse *)redirectResponse {
 
+	NSURLRequest *returnedRequest = request;
 	if ([self.delegate respondsToSelector:@selector(call:willSendRequest:redirectResponse:)]) {
-		return [(id)self.delegate call:self willSendRequest:request redirectResponse:redirectResponse];
+		returnedRequest = [(id)self.delegate call:self willSendRequest:request redirectResponse:redirectResponse];
 	}
 
-	return request;
+	if (returnedRequest) {
+		NSMutableURLRequest *mutableRequest = [returnedRequest mutableCopy];
+		[request_ release];
+		request_ = mutableRequest;
+		self.callURL = mutableRequest.URL.absoluteString;
+	}
+
+	return returnedRequest;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
