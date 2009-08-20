@@ -191,7 +191,7 @@ static NSString *Methods[] = {
 	NSLog(@"Call to %@ failed with error '%@'", self.callURL, [error localizedDescription]);
 #endif
 	responseError_ = [error retain];
-	[self.delegate performSelector:self.didFailSelector withObject:self];
+	[self.delegate performSelector:self.didFailSelector ? self.didFailSelector : self.didFinishSelector withObject:self];
 	[self.manager callDidComplete:self];
 }
 
