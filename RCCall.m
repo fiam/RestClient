@@ -240,6 +240,14 @@ static NSString *Methods[] = {
 								  didFailSelector:didFailSelector] autorelease];
 }
 
++ (id)callWithCallURL:(NSString *)theCallURL delegate:(id <NSObject>)delegate
+	didFinishSelector:(SEL)didFinishSelector {
+
+	return [[[[self class] alloc] initWithCallURL:theCallURL method:kRCCallMethodGET
+									   parameters:nil delegate:delegate
+								didFinishSelector:didFinishSelector
+								  didFailSelector:NULL] autorelease];
+}
 
 
 @end

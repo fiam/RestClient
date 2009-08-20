@@ -93,4 +93,6 @@ typedef enum {
 		   parameters:(NSArray *)theParameters delegate:(id <NSObject>)delegate
 	didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector;
 
++ (id)callWithCallURL:(NSString *)theCallURL delegate:(id <NSObject>)delegate
+	didFinishSelector:(SEL)didFinishSelector;
 @end
