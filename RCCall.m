@@ -123,12 +123,16 @@ static NSString *Methods[] = {
 	request_ = [NSMutableURLRequest new];
 }
 
-- (void)perform {
+- (void)prepareRequest {
 	[self.request setURL:[NSURL URLWithString:callURL_]];
 	[self.request setHTTPMethod:Methods[self.callMethod]];
 	for (RCParameter *parameter in parameters_) {
 		[parameter attachToCall:self];
 	}
+}
+
+- (void)perform {
+	[self prepareRequest];
 
 	connection_ = [[NSURLConnection alloc] initWithRequest:self.request delegate:self startImmediately:YES];
 #ifdef RESTCLIENT_DEBUG

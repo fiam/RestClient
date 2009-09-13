@@ -10,3 +10,5 @@
 #import <RestClient/RCManager.h>
 #import <RestClient/RCCall.h>
 #import <RestClient/RCParameter.h>
+#import <RestClient/Signed/RCSignedCall.h>
+#import <RestClient/Signed/RCKeyRing.h>

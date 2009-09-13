@@ -70,6 +70,7 @@ typedef enum {
 		   parameters:(NSArray *)theParameters delegate:(id <NSObject>)delegate
 	didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector;
 
+- (void)prepareRequest;
 - (void)perform;
 - (void)cancel;
 - (void)reset;
