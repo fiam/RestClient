@@ -166,7 +166,9 @@ static NSString *Methods[] = {
 		NSMutableURLRequest *mutableRequest = [returnedRequest mutableCopy];
 		[request_ release];
 		request_ = mutableRequest;
-		self.callURL = mutableRequest.URL.absoluteString;
+		if (redirectResponse) {
+			self.callURL = mutableRequest.URL.absoluteString;
+		}
 	}
 
 	return returnedRequest;
