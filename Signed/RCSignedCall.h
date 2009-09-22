@@ -8,6 +8,11 @@
 
 #import <RestClient/RCCall.h>
 
+extern NSString *kRCSignedCallSignatureError;
+extern NSString *kRCSignedCallSignatureTimestampError;
+extern NSString *kRCSignedCallSignatureNonceError;
+extern NSString *kRCSignedCallSignatureKeyError;
+extern NSString *kRCSignedCallSignatureValueError;
 
 @interface RCSignedCall : RCCall {
 	NSString *publicKey_;
@@ -16,6 +21,7 @@
 
 @property(nonatomic, retain) NSString *publicKey;
 @property(nonatomic, retain) NSString *privateKey;
+@property(nonatomic, readonly) NSString *signatureError;
 
 + (NSString *)makeNonce;
 

@@ -13,6 +13,12 @@
 
 #import "RCSignedCall.h"
 
+NSString *kRCSignedCallSignatureError = @"signature_error";
+NSString *kRCSignedCallSignatureTimestampError = @"signature_timestamp_error";
+NSString *kRCSignedCallSignatureNonceError = @"signature_nonce_error";
+NSString *kRCSignedCallSignatureKeyError = @"signature_key_error";
+NSString *kRCSignedCallSignatureValueError = @"signature_value_error";
+
 @implementation RCSignedCall
 
 @synthesize publicKey = publicKey_;
@@ -60,6 +66,15 @@
 	return nil;
 }
 
+- (NSString *)signatureError {
+	if (self.responseCode == 403) {
+		NSDictionary *headers = [self.response allHeaderFields];
+		return [headers objectForKey:@"X-Webservice-Signature-Error"];
+	}
+
+	return nil;
+}
+
 - (NSString *)signatureClearTextWithTimestamp:(NSString *)timestamp nonce:(NSString *)nonce {
 	NSMutableArray *pairs = [NSMutableArray arrayWithCapacity:self.parameters.count];
 	for (RCParameter *parameter in self.parameters) {
@@ -98,8 +113,23 @@
 	NSString *signature = [self signatureForKeyData:keyData clearText:clearTextData];
     NSString *header = [NSString stringWithFormat:@"s=%@;k=%@;t=%@;n=%@", signature, self.currentPublicKey,
 						timestamp, nonce];
-	[self.request setValue:header forHTTPHeaderField:@"X-WebService-Signature"];
+	[self.request setValue:header forHTTPHeaderField:@"X-Webservice-Signature"];
+}
 
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	NSString *signatureError = self.signatureError;
+	if (signatureError) {
+#ifdef RESTCLIENT_DEBUG
+		NSLog(@"Signature error from %@ (%@)", self.callURL, signatureError);
+#endif
+		if ([signatureError isEqualToString:kRCSignedCallSignatureNonceError]) {
+			[self reset];
+			[self perform];
+			return;
+		}
+	}
+
+	[super connectionDidFinishLoading:connection];
 }
 
 + (NSString *)makeNonce {
