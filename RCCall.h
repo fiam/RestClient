@@ -29,7 +29,7 @@ typedef enum {
 	NSMutableURLRequest *request_;
 	NSMutableData *responseBody_;
 	NSStringEncoding bodyEncoding_;
-	NSInteger responseCode_;
+	NSHTTPURLResponse *response_;
 	NSError *responseError_;
 	NSURLConnection *connection_;
 	void *context_;
@@ -45,6 +45,7 @@ typedef enum {
 @property(nonatomic) NSStringEncoding bodyEncoding;
 @property(nonatomic, readonly) NSMutableURLRequest *request;
 @property(nonatomic, readonly) NSData *responseBody;
+@property(nonatomic, readonly) NSHTTPURLResponse *response;
 @property(nonatomic, readonly) NSInteger responseCode;
 @property(nonatomic, readonly) NSError *responseError;
 @property(nonatomic, readonly) NSString *responseBodyString;

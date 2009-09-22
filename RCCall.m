@@ -37,8 +37,8 @@ static NSString *Methods[] = {
 @synthesize didFailSelector = didFailSelector_;
 @synthesize request = request_;
 @synthesize bodyEncoding = bodyEncoding_;
+@synthesize response = response_;
 @synthesize responseBody = responseBody_;
-@synthesize responseCode = responseCode_;
 @synthesize responseError = responseError_;
 @synthesize context = context_;
 
@@ -102,11 +102,16 @@ static NSString *Methods[] = {
 	[callURL_ release];
 	[parameters_ release];
 	[request_ release];
+	[response_ release];
 	[responseBody_ release];
 	[connection_ cancel];
 	[connection_ release];
 	[responseError_ release];
 	[super dealloc];
+}
+
+- (NSInteger)responseCode {
+	return [response_ statusCode];
 }
 
 - (NSString *)responseBodyString {
@@ -115,7 +120,7 @@ static NSString *Methods[] = {
 }
 
 - (BOOL)didSucceed {
-	return (!responseError_ && responseCode_ >= 200 && responseCode_ < 300);
+	return (!responseError_ && self.responseCode >= 200 && self.responseCode < 300);
 }
 
 - (void)reset {
@@ -168,7 +173,8 @@ static NSString *Methods[] = {
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	responseCode_ = [(NSHTTPURLResponse *)response statusCode];
+	[response_ release];
+	response_ = [response retain];
 	[responseBody_ release];
 	responseBody_ = [NSMutableData new];
 }
