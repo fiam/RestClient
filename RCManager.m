@@ -59,6 +59,14 @@
 	}	
 }
 
+- (void)cancelCall:(RCCall *)theCall {
+	@synchronized(callList_) {
+		[callList_ removeObject:theCall];
+		[self mayHideNetworkIndicator];
+	}
+	[theCall cancel];
+}
+
 - (void)cancelCalls {
 	@synchronized(callList_) {
 		[callList_ makeObjectsPerformSelector:@selector(cancel)];

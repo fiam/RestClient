@@ -24,6 +24,7 @@
 - (id)initWithBaseURL:(NSString *)theBaseURL delegate:(id <NSObject>)theDelegate;
 
 - (void)cancelCalls;
+- (void)cancelCall:(RCCall *)theCall;
 - (void)cancelCallsForDelegate:(NSObject *)theDelegate;
 - (void)pushCall:(RCCall *)theCall;
 - (void)callDidComplete:(RCCall *)theCall;
