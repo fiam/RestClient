@@ -6,9 +6,10 @@
 //  Copyright 2009 Alberto García Hierro. All rights reserved.
 //
 
+#import <CommonCrypto/CommonHMAC.h>
+
 #import <RestClient/RCParameter.h>
 #import <RestClient/Signed/RCKeyRing.h>
-#import <RestClient/Signed/Crypto/hmac.h>
 #import <RestClient/Signed/Crypto/Base64Transcoder.h>
 
 #import "RCSignedCall.h"
@@ -95,8 +96,8 @@ NSString *kRCSignedCallSignatureValueError = @"signature_value_error";
 	unsigned char result[20];
 	char base64Result[32];
 	size_t base64Length = 32;
-	hmac_sha1((unsigned char *)[clearTextData bytes], [clearTextData length],
-			  (unsigned char *)[keyData bytes], [keyData length], result);
+	CCHmac(kCCHmacAlgSHA1, [keyData bytes], [keyData length],
+		   [clearTextData bytes], [clearTextData length], result);
     Base64EncodeData(result, 20, base64Result, &base64Length);
 	NSData *theData = [NSData dataWithBytes:base64Result length:base64Length];
 	NSString *base64EncodedResult = [[NSString alloc] initWithData:theData encoding:NSUTF8StringEncoding];
