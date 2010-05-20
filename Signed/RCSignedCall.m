@@ -10,7 +10,7 @@
 
 #import <RestClient/RCParameter.h>
 #import <RestClient/Signed/RCKeyRing.h>
-#import <RestClient/Signed/Crypto/Base64Transcoder.h>
+#import <RestClient/Signed/Base64.h>
 
 #import "RCSignedCall.h"
 
