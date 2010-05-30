@@ -85,6 +85,11 @@ typedef enum {
 + (id)callWithCallURL:(NSString *)theCallURL parameters:(NSArray *)theParameters
 	didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector;
 
++ (id)callWithCallURL:(NSString *)theCallURL parameters:(NSArray *)theParameters
+	didFinishSelector:(SEL)didFinishSelector;
+
++ (id)callWithCallURL:(NSString *)theCallURL didFinishSelector:(SEL)didFinishSelector;
+
 + (id)callWithCallURL:(NSString *)theCallURL method:(RCCallMethod)theMethod
 	didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector;
 

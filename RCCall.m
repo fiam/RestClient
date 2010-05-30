@@ -229,6 +229,18 @@ static NSString *Methods[] = {
 			   didFinishSelector:didFinishSelector didFailSelector:didFailSelector];
 }
 
++ (id)callWithCallURL:(NSString *)theCallURL parameters:(NSArray *)theParameters
+	didFinishSelector:(SEL)didFinishSelector {
+
+	return [[self class] callWithCallURL:theCallURL method:kRCCallMethodGET parameters:theParameters
+					   didFinishSelector:didFinishSelector didFailSelector:NULL];
+}
+
++ (id)callWithCallURL:(NSString *)theCallURL didFinishSelector:(SEL)didFinishSelector {
+	return [[self class] callWithCallURL:theCallURL method:kRCCallMethodGET parameters:nil
+					   didFinishSelector:didFinishSelector didFailSelector:NULL];
+}
+
 + (id)callWithCallURL:(NSString *)theCallURL method:(RCCallMethod)theMethod
 	didFinishSelector:(SEL)didFinishSelector didFailSelector:(SEL)didFailSelector {
 
