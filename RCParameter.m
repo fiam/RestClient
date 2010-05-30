@@ -65,6 +65,12 @@
 	}
 }
 
+- (NSString *)URLEncodedValue {
+	return [NSString stringWithFormat:@"%@=%@",
+			[[self class] URLEncodedString:self.name],
+			[[self class] URLEncodedParameterString:self.value]];
+}
+
 - (NSString *)description {
 	return [NSString stringWithFormat:@"<RCParameter: %@=%@>", self.name, self.value];
 }

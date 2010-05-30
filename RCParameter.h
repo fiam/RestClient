@@ -24,6 +24,7 @@
 - (id)initWithName:(NSString *)theName floatValue:(CGFloat)theFloatValue;
 - (id)initWithName:(NSString *)theName boolValue:(BOOL)theBoolValue;
 - (void)attachToCall:(RCCall *)theCall;
+- (NSString *)URLEncodedValue;
 
 + (NSString *)URLEncodedString:(NSString *)theString;
 + (NSString *)URLEncodedParameterString:(NSString *)theString;
