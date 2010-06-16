@@ -22,6 +22,7 @@ extern NSString * const kOAuthVerifierParameterName;
 
 - (id)initWithKey:(NSString *)theKey secret:(NSString *)theSecret;
 - (id)initWithString:(NSString *)keyAndSecretString;
+- (NSString *)toString;
 
 + (id)tokenWithKey:(NSString *)theKey secret:(NSString *)theSecret;
 + (id)tokenWithString:(NSString *)keyAndSecretString;

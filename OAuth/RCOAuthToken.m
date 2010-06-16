@@ -6,6 +6,8 @@
 //  Copyright 2010 Alberto García Hierro. All rights reserved.
 //
 
+#import <RestClient/RCParameter.h>
+
 #import "RCOAuthToken.h"
 
 NSString * const kOAuthTokenParameterName = @"oauth_token";
@@ -73,6 +75,12 @@ static NSString *kOAuthTokenSecretCoderKey = @"secret";
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:self.key forKey:kOAuthTokenKeyCoderKey];
 	[aCoder encodeObject:self.secret forKey:kOAuthTokenSecretCoderKey];
+}
+
+- (NSString *)toString {
+	return [NSString stringWithFormat:@"oauth_token=%@&oauth_token_secret=%@",
+			[RCParameter URLEncodedParameterString:key_],
+			[RCParameter URLEncodedParameterString:secret_]];
 }
 
 + (id)tokenWithKey:(NSString *)theKey secret:(NSString *)theSecret {
