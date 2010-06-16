@@ -42,18 +42,6 @@
 	[super dealloc];
 }
 
-- (void)setBaseURL:(NSString *)theBaseURL {
-	if (!theBaseURL) {
-		theBaseURL = @"";
-	}
-
-	[self willChangeValueForKey:@"baseURL"];
-	NSString *copy = [theBaseURL copy];
-	[baseURL_ release];
-	baseURL_ = copy;
-	[self didChangeValueForKey:@"baseURL"];
-}
-
 - (void)mayHideNetworkIndicator {
 	if (managedCalls_.count == 0) {
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
@@ -93,8 +81,10 @@
 
 - (void)pushCall:(RCCall *)theCall {
 	theCall.manager = self;
-	theCall.delegate = self.delegate;
-	theCall.callURL = [self.baseURL stringByAppendingString:theCall.callURL];
+	theCall.delegate = delegate_;
+	if (baseURL_) {
+		theCall.callURL = [baseURL_ stringByAppendingString:theCall.callURL];
+	}
 	@synchronized(managedCalls_) {
 		[managedCalls_ addObject:theCall];
 		if (managedCalls_.count == 1) {

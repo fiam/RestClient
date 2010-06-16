@@ -16,7 +16,7 @@
 	id <NSObject> delegate_;
 }
 
-@property(nonatomic, copy) NSString *baseURL;
+@property(nonatomic, retain) NSString *baseURL;
 @property(nonatomic, assign) id <NSObject> delegate;
 
 - (id)initWithBaseURL:(NSString *)theBaseURL;
