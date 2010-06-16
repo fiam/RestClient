@@ -1,6 +1,6 @@
 //
 //  RCKeyRing.h
-//  iRae
+//  RestClient
 //
 //  Created by Alberto García Hierro on 08/09/09.
 //  Copyright 2009 Alberto García Hierro. All rights reserved.

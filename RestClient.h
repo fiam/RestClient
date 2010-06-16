@@ -1,9 +1,9 @@
 //
 //  RestClient.h
-//  Tooio
+//  RestClient
 //
 //  Created by Alberto García Hierro on 17/04/09.
-//  Copyright 2009 Tooio Mobile S.L. All rights reserved.
+//  Copyright 2009 Alberto García Hierro. All rights reserved.
 //
 
 

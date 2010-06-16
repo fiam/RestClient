@@ -1,6 +1,6 @@
 //
 //  RCSignedCall.m
-//  iRae
+//  RestClient
 //
 //  Created by Alberto García Hierro on 07/09/09.
 //  Copyright 2009 Alberto García Hierro. All rights reserved.
