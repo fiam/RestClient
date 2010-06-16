@@ -12,7 +12,7 @@
 
 @interface RCManager : NSObject {
 	NSString *baseURL_;
-	NSMutableArray *callList_;
+	NSMutableSet *managedCalls_;
 	id <NSObject> delegate_;
 }
 

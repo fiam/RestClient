@@ -29,15 +29,16 @@
 	if (self = [super init]) {
 		self.baseURL = theBaseURL;
 		self.delegate = theDelegate;
-		callList_ = [NSMutableArray new];
+		managedCalls_ = [[NSMutableSet alloc] init];
 	}
 
 	return self;
 }
 
 - (void)dealloc {
-	[callList_ release];
 	[baseURL_ release];
+	[managedCalls_ makeObjectsPerformSelector:@selector(cancel)];
+	[managedCalls_ release];
 	[super dealloc];
 }
 
@@ -54,15 +55,15 @@
 }
 
 - (void)mayHideNetworkIndicator {
-	if (!callList_.count) {
+	if (managedCalls_.count == 0) {
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	}	
 }
 
 - (void)cancelCall:(RCCall *)theCall {
-	if ([callList_ indexOfObject:theCall] != NSNotFound) {
-		@synchronized(callList_) {
-			[callList_ removeObject:theCall];
+	if ([managedCalls_ containsObject:theCall]) {
+		@synchronized(managedCalls_) {
+			[managedCalls_ removeObject:theCall];
 			[self mayHideNetworkIndicator];
 		}
 		[theCall cancel];
@@ -70,20 +71,20 @@
 }
 
 - (void)cancelCalls {
-	@synchronized(callList_) {
-		[callList_ makeObjectsPerformSelector:@selector(cancel)];
-		[callList_ removeAllObjects];
+	@synchronized(managedCalls_) {
+		[managedCalls_ makeObjectsPerformSelector:@selector(cancel)];
+		[managedCalls_ removeAllObjects];
 		[self mayHideNetworkIndicator];
 	}
 }
 
 - (void)cancelCallsForDelegate:(NSObject *)theDelegate {
-	@synchronized(callList_) {
-		NSArray *calls = [NSArray arrayWithArray:callList_];
-		for (RCCall *call in calls) {
-			if (call.delegate == theDelegate) {
-				[call cancel];
-				[callList_ removeObject:call];
+	@synchronized(managedCalls_) {
+		NSSet *theCalls = [NSSet setWithSet:managedCalls_];
+		for (RCCall *aCall in theCalls) {
+			if (aCall.delegate == theDelegate) {
+				[aCall cancel];
+				[managedCalls_ removeObject:aCall];
 			}
 		}
 		[self mayHideNetworkIndicator];
@@ -94,9 +95,9 @@
 	theCall.manager = self;
 	theCall.delegate = self.delegate;
 	theCall.callURL = [self.baseURL stringByAppendingString:theCall.callURL];
-	@synchronized(callList_) {
-		[callList_ addObject:theCall];
-		if (callList_.count == 1) {
+	@synchronized(managedCalls_) {
+		[managedCalls_ addObject:theCall];
+		if (managedCalls_.count == 1) {
 			[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		}
 	}
@@ -105,8 +106,8 @@
 }
 
 - (void)callDidComplete:(RCCall *)theCall {
-	@synchronized(callList_) {
-		[callList_ removeObject:theCall];
+	@synchronized(managedCalls_) {
+		[managedCalls_ removeObject:theCall];
 		[self mayHideNetworkIndicator];
 	}
 }
