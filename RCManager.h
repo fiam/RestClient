@@ -14,7 +14,6 @@
 	NSString *baseURL_;
 	NSMutableArray *callList_;
 	id <NSObject> delegate_;
-	NSThread *dispatcherThread_;
 }
 
 @property(nonatomic, copy) NSString *baseURL;
