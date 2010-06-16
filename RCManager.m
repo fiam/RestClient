@@ -60,11 +60,13 @@
 }
 
 - (void)cancelCall:(RCCall *)theCall {
-	@synchronized(callList_) {
-		[callList_ removeObject:theCall];
-		[self mayHideNetworkIndicator];
+	if ([callList_ indexOfObject:theCall] != NSNotFound) {
+		@synchronized(callList_) {
+			[callList_ removeObject:theCall];
+			[self mayHideNetworkIndicator];
+		}
+		[theCall cancel];
 	}
-	[theCall cancel];
 }
 
 - (void)cancelCalls {
