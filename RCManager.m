@@ -63,10 +63,10 @@
 - (void)cancelCall:(RCCall *)theCall {
 	if ([managedCalls_ containsObject:theCall]) {
 		@synchronized(managedCalls_) {
+			[theCall cancel];
 			[managedCalls_ removeObject:theCall];
 			[self mayHideNetworkIndicator];
 		}
-		[theCall cancel];
 	}
 }
 
